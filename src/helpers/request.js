@@ -1,7 +1,9 @@
 import axios from 'axios'
+import baseURLConfig from './config-baseURL'
+console.log(baseURLConfig)
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
-axios.defaults.baseURL = 'https://note-server.hunger-valley.com/'
+axios.defaults.baseURL = baseURLConfig.baseURL
 axios.defaults.withCredentials = true //是否使用跨域请求
 
 export default function request(url, type = "GET", data = {}) {
