@@ -20,13 +20,12 @@
 
 <script>
 import Avatar from "./Avatar.vue";
-import request from "@/helpers/request";
+import Auth from "@/apis/auth";
 export default {
   components: { Avatar },
   methods: {
     logout() {
-      console.log("hi");
-      request("/auth/logout").then((data) => {
+      Auth.logout().then((data) => {
         console.log(data);
       });
     },
