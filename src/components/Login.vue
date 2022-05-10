@@ -48,6 +48,7 @@
   </div>
 </template>
 <script>
+import Bus from "@/helpers/bus.js";
 import Auth from "@/apis/auth.js";
 // Auth.getInfo().then((data) => {
 //   console.log(data);
@@ -98,6 +99,7 @@ export default {
         .then((data) => {
           this.register.isError = false;
           this.register.notice = "";
+          Bus.$emit("userInfo", { username: this.login.username });
           this.$router.push({ path: "notebooks" }); //登录成功后跳转到notebooks
         })
         .catch((data) => {
@@ -116,10 +118,6 @@ export default {
         this.login.notice = "密码长度为6~16个字符";
         return;
       }
-
-      console.log(
-        `start login..., username: ${this.login.username} , password: ${this.login.password}`
-      );
       Auth.login({
         username: this.login.username,
         password: this.login.password,
@@ -127,6 +125,7 @@ export default {
         .then((data) => {
           this.login.isError = false;
           this.login.notice = "";
+          Bus.$emit("userInfo", { username: this.login.username });
           this.$router.push({ path: "notebooks" }); //登录成功后跳转到notebooks
           console.log(data);
         })
