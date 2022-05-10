@@ -1,8 +1,8 @@
 <template>
   <div id="notebook-list" class="detail">
     <header>
-      <a href="#" class="btn"
-        ><i class="iconfont icon-plus" @click.prevent="onCreate"></i>新建笔记本
+      <a href="#" class="btn" @click.prevent="onCreate"
+        ><i class="iconfont icon-plus"></i>新建笔记本
       </a>
     </header>
     <main>
@@ -45,7 +45,15 @@ export default {
   },
   methods: {
     onCreate() {
-      console.log("onCreate");
+      let title = window.prompt("创建笔记本");
+      if (title.trim() === "") {
+        alert("笔记本名不能为空");
+        return;
+      }
+      Notebooks.addNoteBook({ title }).then((res) => {
+        alert(res.msg);
+        this.notebooks.unshift(res.data);
+      });
     },
     onEdit(notebook) {
       console.log("onEdit");
