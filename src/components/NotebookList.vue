@@ -63,7 +63,13 @@ export default {
       });
     },
     onDelete(notebook) {
-      console.log("onDelete");
+      let isConfirm = window.confirm("你确定要删除改笔记本吗？");
+      if (isConfirm) {
+        Notebooks.deleteNotebook(notebook.id).then((res) => {
+          this.notebooks.splice(this.notebooks.indexOf(notebook), 1);
+          alert(res.msg);
+        });
+      }
     },
   },
   created() {
