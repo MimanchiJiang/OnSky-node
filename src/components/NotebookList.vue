@@ -50,13 +50,17 @@ export default {
         alert("笔记本名不能为空");
         return;
       }
-      Notebooks.addNoteBook({ title }).then((res) => {
+      Notebooks.addNotebook({ title }).then((res) => {
         alert(res.msg);
         this.notebooks.unshift(res.data);
       });
     },
     onEdit(notebook) {
-      console.log("onEdit");
+      let title = window.prompt("修改标题", notebook.title);
+      Notebooks.updateNotebook(notebook.id, { title }).then((res) => {
+        alert(res.msg);
+        notebook.title = title;
+      });
     },
     onDelete(notebook) {
       console.log("onDelete");
