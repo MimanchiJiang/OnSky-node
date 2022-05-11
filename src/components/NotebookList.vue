@@ -51,6 +51,7 @@ export default {
       this.$prompt("请输入新标题", "新建", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
+
         inputPattern: /^.{1,30}$/,
         inputErrorMessage: "标题不能为空，且不超过30个字符",
       })
@@ -60,23 +61,21 @@ export default {
         .then((res) => {
           res.data.friendlyCreatedAt = friendlyDate(res.data.createdAt);
           this.notebooks.unshift(res.data);
-          this.$message({ type: "success", message: res.msg });
+          this.$message.success(res.msg);
         });
     },
     onEdit(notebook) {
       this.$prompt("请输入新标题", "修改", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
+        inputValue: notebook.title,
         inputPattern: /^.{1,30}$/,
         inputErrorMessage: "标题不能为空，且不超过30个字符",
       }).then(({ value }) => {
         return Notebooks.updateNotebook(notebook.id, { title: value }).then(
           (res) => {
             notebook.title = value;
-            this.$message({
-              type: "success",
-              message: res.msg,
-            });
+            this.$message.success(res.msg);
           }
         );
       });
@@ -89,7 +88,7 @@ export default {
       }).then(() => {
         Notebooks.deleteNotebook(notebook.id).then((res) => {
           this.notebooks.splice(this.notebooks.indexOf(notebook), 1);
-          this.$message({ type: "success", message: res.msg });
+          this.$message.success(res.msg);
         });
       });
     },

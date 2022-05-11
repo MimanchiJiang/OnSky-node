@@ -26,10 +26,7 @@ export default function request(url, type = "GET", data = {}) {
                 resolve(res.data)
             } else {
                 console.error(res.data)
-                Message({
-                    type: 'error',
-                    message: res.data.msg
-                }),
+                Message.error(res.data.msg),
                     reject(res.data)
             }
         }).catch(err => {
