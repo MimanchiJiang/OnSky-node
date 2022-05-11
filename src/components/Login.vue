@@ -140,7 +140,7 @@ export default {
 
 
 
-<style lang='less'>
+<style lang='less' scoped>
 .modal-mask {
   position: fixed;
   z-index: 100;
@@ -190,7 +190,7 @@ export default {
       }
     }
     .button {
-      background-color: rgb(85, 114, 86);
+      background-color: rgb(83, 118, 88);
       height: 36px;
       line-height: 36px;
       text-align: center;

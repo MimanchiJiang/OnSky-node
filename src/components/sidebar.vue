@@ -38,7 +38,7 @@ export default {
   position: relative;
   width: 56px;
   text-align: center;
-  background-color: #2c333c;
+  background-color: #4f735a;
 
   .icons {
     margin-top: 15px;
@@ -49,7 +49,7 @@ export default {
     }
 
     .router-link-active {
-      background-color: #5e6266;
+      background-color: rgb(83, 118, 150);
     }
   }
 
