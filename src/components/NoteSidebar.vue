@@ -38,8 +38,7 @@
 <script>
 import Notebooks from "@/apis/notebooks";
 import Notes from "@/apis/notes";
-window.Notes = Notes;
-// import Bus from "@/helpers/bus";
+import Bus from "@/helpers/bus";
 export default {
   created() {
     Notebooks.getAll()
@@ -91,23 +90,22 @@ export default {
   },
   methods: {
     handleCommand(notebookId) {
-      console.log(notebookId);
-      //       if (notebookId == "trash") {
-      //         return this.$router.push({ path: "/trash" });
-      //       }
-      //       this.curBook = this.notebooks.find(
-      //         (notebook) => notebook.id == notebookId
-      //       );
-      //       Notes.getAll({ notebookId }).then((res) => {
-      //         this.notes = res.data;
-      //         this.$emit("update:notes", this.notes);
-      //       });
-      //     },
-      //     addNote() {
-      //       Notes.addNote({ notebookId: this.curBook.id }).then((res) => {
-      //         console.log(res);
-      //         this.notes.unshift(res.data);
-      //       });
+      if (notebookId == "trash") {
+        return this.$router.push({ path: "/trash" });
+      }
+      this.curBook = this.notebooks.find(
+        (notebook) => notebook.id == notebookId
+      );
+      Notes.getAll({ notebookId }).then((res) => {
+        this.notes = res.data;
+        this.$emit("update:notes", this.notes);
+      });
+    },
+    addNote() {
+      Notes.addNote({ notebookId: this.curBook.id }).then((res) => {
+        console.log(res);
+        this.notes.unshift(res.data);
+      });
     },
   },
 };
