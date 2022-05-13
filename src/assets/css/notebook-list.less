@@ -1,84 +1,90 @@
-.note-sidebar {
-    position: relative;
-    width: 290px;
-    border-right: 1px solid #ccc;
-    background-color: #eee;
+#notebook-list {
+    flex: 1;
 
-    .add-note {
-        position: absolute;
-        right: 5px;
-        top: 12px;
-        color: #666;
+    .btn {
         font-size: 12px;
-        padding: 2px 4px;
-        box-shadow: 0px 0px 2px 0px #ccc;
-        border: none;
-        z-index: 1;
+        color: #666;
+        cursor: pointer;
+        margin-left: 10px;
     }
 
-    .notebook-title {
-        font-size: 18px;
-        font-weight: normal;
-        color: #333;
-        height: 45px;
-        line-height: 45px;
-        text-align: center;
+    .btn .iconfont {
+        font-size: 12px;
+    }
+
+    input {
+        width: 300px;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        padding: 3px 5px;
+        outline: none;
+    }
+
+    header {
+        padding: 12px;
         border-bottom: 1px solid #ccc;
-        background-color: #f7f7f7;
-        display: block;
     }
 
-    .el-dropdown-link {
+    main {
+        padding: 30px 40px;
+    }
+
+    .layout {
+        max-width: 966px;
+        margin: 0 auto;
+    }
+
+
+    main h3 {
+        font-size: 12px;
+        color: #000;
+    }
+
+    main .book-list {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+        background-color: #fff;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+
+    main .book-list span {
+        font-size: 12px;
+        font-weight: bold;
+        color: #b3c0c8;
+    }
+
+    main .date,
+    main .action {
+        float: right;
+        margin-left: 10px;
+    }
+
+    main .iconfont {
+        color: #1687ea;
+        margin-right: 4px;
+    }
+
+    main .notebook {
+        display: block;
         cursor: pointer;
     }
 
-    .el-dropdown-menu__item {
-        width: 200px;
+    main a.notebook:hover {
+        background-color: #f7fafd;
     }
 
-    .menu {
-        display: flex;
-
-        div {
-            font-size: 12px;
-            padding: 2px 10px;
-            flex: 1;
-            border-right: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-
-            &:last-child {
-                border-right: none;
-            }
-        }
-
-        .iconfont {
-            font-size: 10px;
-        }
+    main a.notebook div {
+        border-bottom: 1px solid #ebebeb;
+        padding: 12px 14px;
     }
 
-    .notes {
-        li {
-
-            &:nth-child(odd) {
-                background-color: #f2f2f2;
-            }
-
-            a {
-                display: flex;
-                padding: 3px 0;
-                font-size: 12px;
-                border: 2px solid transparent;
-            }
-
-            .router-link-exact-active {
-                border: 2px solid #81c0f3;
-                border-radius: 3px;
-            }
-
-            span {
-                padding: 0 10px;
-                flex: 1;
-            }
-        }
+    main .error-msg {
+        font-size: 12px;
+        color: red;
     }
+
 }

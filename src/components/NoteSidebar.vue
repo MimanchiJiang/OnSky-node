@@ -1,15 +1,14 @@
 <template>
   <div class="note-sidebar">
-    <span class="btn add-note">添加笔记</span>
+    <span class="btn add-note" @click="addNote">添加笔记</span>
     <el-dropdown
       class="notebook-title"
       @command="handleCommand"
       placement="bottom"
     >
       <span class="el-dropdown-link">
-        我的笔记本1<i class="iconfont icon-down"></i
-      ></span>
-
+        {{ curBook.title }} <i class="iconfont icon-down"></i>
+      </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
           v-for="notebook in notebooks"
@@ -26,10 +25,10 @@
     </div>
     <ul class="notes">
       <li v-for="note in notes" :key="note">
-        <router-link :to="`/note?noteId=${note.id}`">
+        <router-link :to="`/note?noteId=${note.id}&notebookId=${curBook.id}`">
           <span class="date">{{ note.updatedAtFriendly }}</span>
-          <span class="title">{{ note.title }}</span></router-link
-        >
+          <span class="title">{{ note.title }}</span>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -39,7 +38,9 @@
 import Notebooks from "@/apis/notebooks";
 import Notes from "@/apis/notes";
 import Bus from "@/helpers/bus";
+
 export default {
+  props: ["curNote"],
   created() {
     Notebooks.getAll()
       .then((res) => {
@@ -58,36 +59,15 @@ export default {
         Bus.$emit("update:notes", this.notes);
       });
   },
+
   data() {
     return {
-      notebooks: [
-        {
-          id: 1,
-          title: "hello1",
-        },
-        {
-          id: 2,
-          title: "hello2",
-          updatedAtFriendly: "3分钟前",
-        },
-      ],
-      notes: [
-        {
-          id: 11,
-          title: "第一个笔记",
-          updatedAtFriendly: "刚刚",
-        },
-        {
-          id: 12,
-          title: "第二个笔记",
-          updatedAtFriendly: "三分钟前",
-        },
-      ],
-      //       notebooks: [],
-      //       notes: [],
-      //       curBook: {},
+      notebooks: [],
+      notes: [],
+      curBook: {},
     };
   },
+
   methods: {
     handleCommand(notebookId) {
       if (notebookId == "trash") {
@@ -101,6 +81,7 @@ export default {
         this.$emit("update:notes", this.notes);
       });
     },
+
     addNote() {
       Notes.addNote({ notebookId: this.curBook.id }).then((res) => {
         console.log(res);
@@ -111,6 +92,9 @@ export default {
 };
 </script>
 
-<style lang="less">
+
+<style lang="less" >
 @import url(../assets/css/note-sidebar.less);
 </style>
+
+

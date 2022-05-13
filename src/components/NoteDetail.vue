@@ -1,9 +1,25 @@
 <template>
   <div id="note" class="detail">
-    <note-sidebar></note-sidebar>
-    <div id="note-detail">
-      <h1>notebookId:{{ $route.query.notebookId }}</h1>
-      <h1>noteId:{{ $route.query.noteId }}</h1>
+    <note-sidebar @update:notes="(val) => (notes = val)"></note-sidebar>
+    <div class="note-detail">
+      <div class="note-bar">
+        <span>创建日期：{{ curNote.createdAtFriendly }}</span>
+        <span>更新日期：{{ curNote.updatedAtFriendly }}</span>
+        <span> {{ curNote.statusText }}</span>
+        <span class="iconfont icon-delete"></span>
+        <span class="iconfont icon-fullscreen"></span>
+      </div>
+      <div class="note-title">
+        <input v-model="curNote.title" type="text" placeholder="输入标题" />
+      </div>
+      <div class="editor">
+        <textarea
+          :value="curNote.content"
+          v-show="true"
+          placeholder="输入内容,支持markdown 语法"
+        ></textarea>
+        <div class="preview markdown-body" v-html="12" v-show="false"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -11,12 +27,14 @@
 <script>
 import Auth from "@/apis/auth";
 import NoteSidebar from "./NoteSidebar.vue";
+
 export default {
   components: { NoteSidebar },
   name: "Login",
   data() {
     return {
-      msg: "笔记详情页",
+      curNote: {},
+      notes: [],
     };
   },
   created() {
@@ -26,10 +44,17 @@ export default {
       }
     });
   },
+
+  beforeRouteUpdate(to, from, next) {
+    this.curNote = this.notes.find((note) => note.id == to.query.noteId);
+    next();
+  },
 };
 </script>
 
-<style scoped>
+<style lang="less" >
+@import url(../assets/css/note-detail.less);
+
 #note {
   display: flex;
   align-items: stretch;
