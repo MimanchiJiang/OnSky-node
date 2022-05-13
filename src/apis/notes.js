@@ -15,7 +15,7 @@ export default {
                 .then(res => {
                     res.data = res.data.map(note => {
                         note.createdAtFriendly = friendlyDate(note.createdAt)
-                        note.updateAtFriendly = friendlyDate(note.updatedAt)
+                        note.updatedAtFriendly = friendlyDate(note.updatedAt)
                         return note
                     }).sort((note1, note2) => {
                         return note1.updatedAt < note2.updatedAt

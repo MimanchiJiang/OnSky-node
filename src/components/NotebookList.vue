@@ -101,7 +101,6 @@ export default {
 
       Notebooks.getAll().then((res) => {
         this.notebooks = res.data;
-        console.log(this.notebooks);
       });
     });
   },
