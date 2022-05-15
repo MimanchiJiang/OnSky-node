@@ -65,7 +65,7 @@ const actions = { //用来调用mutations
     },
 
     deleteNote({ commit }, { noteId }) {
-        return Notebook.deleteNotebook({ noteId })
+        return Note.deleteNote({ noteId })
             .then(res => {
                 commit('deleteNotebook', { noteId })
                 Message.success(res.msg)
