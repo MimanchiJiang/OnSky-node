@@ -50,9 +50,8 @@
 <script>
 import Bus from "@/helpers/bus.js";
 import Auth from "@/apis/auth.js";
-// Auth.getInfo().then((data) => {
-//   console.log(data);
-// });
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -73,6 +72,10 @@ export default {
     };
   },
   methods: {
+    ...mapActions({
+      loginUser: "login",
+      registerUser: "register",
+    }),
     showLogin() {
       this.isShowLogin = true;
       this.isShowRegister = false;
@@ -92,14 +95,13 @@ export default {
         this.register.notice = "密码长度为6~16个字符";
         return;
       }
-      Auth.register({
+      this.registerUser({
         username: this.register.username,
         password: this.register.password,
       })
-        .then((data) => {
+        .then(() => {
           this.register.isError = false;
           this.register.notice = "";
-          Bus.$emit("userInfo", { username: this.login.username });
           this.$router.push({ path: "notebooks" }); //登录成功后跳转到notebooks
         })
         .catch((data) => {
@@ -118,14 +120,13 @@ export default {
         this.login.notice = "密码长度为6~16个字符";
         return;
       }
-      Auth.login({
+      this.loginUser({
         username: this.login.username,
         password: this.login.password,
       })
         .then((data) => {
           this.login.isError = false;
           this.login.notice = "";
-          Bus.$emit("userInfo", { username: this.login.username });
           this.$router.push({ path: "notebooks" }); //登录成功后跳转到notebooks
           console.log(data);
         })

@@ -4,6 +4,7 @@ import router from './router'
 import sidebar from './components/sidebar'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import store from './store'
 
 
 Vue.use(ElementUI)
@@ -13,6 +14,7 @@ new Vue({
   el: '#app',
   router,
   sidebar,
+  store,
   components: { App },
   template: '<App/>'
 })

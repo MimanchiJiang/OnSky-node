@@ -38,33 +38,33 @@
 import Auth from "@/apis/auth";
 import Notebooks from "@/apis/notebooks";
 import { friendlyDate } from "@/helpers/util";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
-    return {
-      notebooks: [],
-      msg: "笔记本列表",
-    };
+    return {};
   },
   methods: {
+    ...mapActions([
+      "getNotebooks",
+      "addNotebook",
+      "updateNotebook",
+      "deleteNotebook",
+      "checkLogin",
+    ]),
+
     onCreate() {
       this.$prompt("请输入新标题", "新建", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-
         inputPattern: /^.{1,30}$/,
         inputErrorMessage: "标题不能为空，且不超过30个字符",
-      })
-        .then(({ value }) => {
-          return Notebooks.addNotebook({ title: value });
-        })
-        .then((res) => {
-          res.data.friendlyCreatedAt = friendlyDate(res.data.createdAt);
-          this.notebooks.unshift(res.data);
-          this.$message.success(res.msg);
-        });
+      }).then(({ value }) => {
+        this.addNotebook({ title: value });
+      });
     },
     onEdit(notebook) {
+      let title = "";
       this.$prompt("请输入新标题", "修改", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -72,12 +72,7 @@ export default {
         inputPattern: /^.{1,30}$/,
         inputErrorMessage: "标题不能为空，且不超过30个字符",
       }).then(({ value }) => {
-        return Notebooks.updateNotebook(notebook.id, { title: value }).then(
-          (res) => {
-            notebook.title = value;
-            this.$message.success(res.msg);
-          }
-        );
+        this.updateNotebook({ notebookId: notebook.id, title: value });
       });
     },
     onDelete(notebook) {
@@ -86,23 +81,16 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        Notebooks.deleteNotebook(notebook.id).then((res) => {
-          this.notebooks.splice(this.notebooks.indexOf(notebook), 1);
-          this.$message.success(res.msg);
-        });
+        this.deleteNotebook({ notebookId: notebook.id });
       });
     },
   },
   created() {
-    Auth.getInfo().then((res) => {
-      if (!res.isLogin) {
-        this.$router.push({ path: "/login" });
-      }
-
-      Notebooks.getAll().then((res) => {
-        this.notebooks = res.data;
-      });
-    });
+    this.checkLogin({ path: "/login" });
+    this.getNotebooks();
+  },
+  computed: {
+    ...mapGetters(["notebooks"]),
   },
 };
 </script>

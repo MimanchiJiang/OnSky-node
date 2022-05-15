@@ -8,7 +8,7 @@
           <span>创建日期：{{ curNote.createdAtFriendly }}</span>
           <span>更新日期：{{ curNote.updatedAtFriendly }}</span>
           <span> {{ statusText }}</span>
-          <span class="iconfont icon-delete" @click="deleteNote"></span>
+          <span class="iconfont icon-delete" @click="onDeleteNote"></span>
           <span
             class="iconfont icon-fullscreen"
             @click="isShowPreview = !isShowPreview"
@@ -19,12 +19,12 @@
             v-model="curNote.title"
             type="text"
             placeholder="输入标题"
-            @input="updateNote"
+            @input="OnUpdateNote"
           />
         </div>
         <div class="editor">
           <textarea
-            @input="updateNote"
+            @input="OnUpdateNote"
             @keydown="statusText = '正在输入....'"
             v-model:value="curNote.content"
             v-show="isShowPreview"
@@ -44,10 +44,9 @@
 <script>
 import Auth from "@/apis/auth";
 import NoteSidebar from "./NoteSidebar.vue";
-import Bus from "@/helpers/bus";
 import _ from "lodash";
-import Notes from "@/apis/notes";
 import MarkdownIt from "markdown-it";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 let md = new MarkdownIt();
 
@@ -56,23 +55,25 @@ export default {
   name: "Login",
   data() {
     return {
-      curNote: {},
-      notes: [],
       statusText: "笔记未改动",
       isShowPreview: false,
     };
   },
   computed: {
+    ...mapGetters(["notes", "curNote"]),
     previewContent() {
       return md.render(this.curNote.content || "");
     },
   },
   methods: {
-    updateNote: _.debounce(function () {
-      Notes.updateNote(
-        { noteId: this.curNote.id },
-        { title: this.curNote.title, content: this.curNote.content }
-      )
+    ...mapMutations(["setCurNote"]),
+    ...mapActions(["updateNote", "deleteNote", "checkLogin"]),
+    OnUpdateNote: _.debounce(function () {
+      this.updateNote({
+        noteId: this.curNote.id,
+        title: this.curNote.title,
+        content: this.curNote.content,
+      })
         .then((data) => {
           this.statusText = "已保存";
         })
@@ -80,27 +81,19 @@ export default {
           this.statusText = "保存出错";
         });
     }, 300),
-    deleteNote() {
-      Notes.deleteNote({ noteId: this.curNote.id }).then((data) => {
-        this.$message.success(data.msg);
-        this.notes.splice(this.notes.indexOf(this.curNote), 1);
+    onDeleteNote() {
+      this.deleteNote({ noteId: this.curNote.id }).then((data) => {
         this.$router.replace({ path: "/note" });
       });
     },
   },
   created() {
-    Auth.getInfo().then((res) => {
-      if (!res.isLogin) {
-        this.$router.push({ path: "/login" });
-      }
-    });
-    Bus.$on("update:notes", (val) => {
-      this.curNote =
-        val.find((note) => note.id == this.$route.query.noteId) || {};
-    });
+    //第一步，检测用户是否登录
+    this.checkLogin({ path: "/login" });
   },
 
   beforeRouteUpdate(to, from, next) {
+    this.setCurNote({ curNoteId: to.query.noteId });
     this.curNote = this.notes.find((note) => note.id == to.query.noteId) || {};
     next();
   },
