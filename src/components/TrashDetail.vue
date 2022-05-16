@@ -42,18 +42,17 @@ let md = new MarkdownIt();
 export default {
   name: "Login",
   data() {
-    return {
-      belongTo: "我的笔记本",
-    };
+    return {};
   },
   created() {
     this.checkLogin({ path: "/login" });
+    this.getNotebooks();
     this.getTrashNotes().then(() => {
       this.setCurTrashNote({ curTrashNoteId: this.$route.query.noteId });
     });
   },
   computed: {
-    ...mapGetters(["trashNotes", "curTrashNote"]),
+    ...mapGetters(["trashNotes", "curTrashNote", "belongTo"]),
     compileMarkdown() {
       return md.render(this.curTrashNote.content || "");
     },
@@ -65,6 +64,7 @@ export default {
       "deleteTrashNote",
       "revertTrashNote",
       "getTrashNotes",
+      "getNotebooks",
     ]),
     onDelete() {
       this.deleteTrashNote({ noteId: this.curTrashNote.id });
