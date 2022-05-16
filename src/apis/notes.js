@@ -14,7 +14,7 @@ export default {
             request(URL.GET.replace(':notebookId', notebookId))
                 .then(res => {
                     res.data = res.data.map(note => {
-                        note.createAtFriendly = friendlyDate(note.createdAt)
+                        note.createdAtFriendly = friendlyDate(note.createdAt)
                         note.updatedAtFriendly = friendlyDate(note.updatedAt)
                         return note
                     }).sort((note1, note2) => {
@@ -37,7 +37,7 @@ export default {
             request(URL.ADD.replace(':notebookId', notebookId), 'POST', { title, content })
                 .then(res => {
                     res.data.createdAtFriendly = friendlyDate(res.data.createdAt)
-                    res.data.updateAtFriendly = friendlyDate(res.data.updatedAt)
+                    res.data.updatedAtFriendly = friendlyDate(res.data.updatedAt)
                     resolve(res)
                 }).catch(err => {
                     reject(err)
