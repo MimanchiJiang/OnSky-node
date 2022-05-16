@@ -23,11 +23,11 @@ export default {
         })
     },
 
-    deleteNote({ noteID }) {
-        return request(URL.DELETE.replace(':noteId', noteID), 'DELETE')
+    deleteNote({ noteId }) {
+        return request(URL.DELETE.replace(':noteId', noteId), 'DELETE')
     },
-    revertNote(noteID) {
-        return request(URL.REVERT.replace(':noteId', noteID), 'PATCH')
+    revertNote({ noteId }) {
+        return request(URL.REVERT.replace(':noteId', noteId), 'PATCH')
     },
 
 
