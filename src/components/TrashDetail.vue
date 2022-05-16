@@ -7,7 +7,7 @@
         <div>标题</div>
       </div>
       <ul class="notes">
-        <li v-for="note in trashNotes" :key="note">
+        <li v-for="note in trashNotes" :key="note.index">
           <router-link :to="`/trash?noteId=${note.id}`">
             <span class="date">{{ note.updatedAtFriendly }}</span>
             <span class="title">{{ note.title }}</span>

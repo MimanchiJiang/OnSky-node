@@ -13,7 +13,7 @@
         ><i class="iconfont icon-trash"></i
       ></router-link>
     </div>
-    <div class="logout" @click="onLogout">
+    <div class="logout">
       <i class="iconfont icon-logout" @click="logout"></i>
     </div>
   </div>

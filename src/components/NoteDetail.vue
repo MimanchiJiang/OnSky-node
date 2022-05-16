@@ -52,7 +52,7 @@ let md = new MarkdownIt();
 
 export default {
   components: { NoteSidebar },
-  name: "Login",
+
   data() {
     return {
       statusText: "笔记未改动",
@@ -94,7 +94,6 @@ export default {
 
   beforeRouteUpdate(to, from, next) {
     this.setCurNote({ curNoteId: to.query.noteId });
-    this.curNote = this.notes.find((note) => note.id == to.query.noteId) || {};
     next();
   },
 };

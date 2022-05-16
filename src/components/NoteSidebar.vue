@@ -12,7 +12,7 @@
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item
           v-for="notebook in notebooks"
-          :key="notebook"
+          :key="notebook.index"
           :command="notebook.id"
           >{{ notebook.title }}</el-dropdown-item
         >
@@ -24,7 +24,7 @@
       <div>标题</div>
     </div>
     <ul class="notes">
-      <li v-for="note in notes" :key="note">
+      <li v-for="note in notes" :key="note.index">
         <router-link :to="`/note?noteId=${note.id}&notebookId=${curBook.id}`">
           <span class="date">{{ note.updatedAtFriendly }}</span>
           <span class="title">{{ note.title }}</span>
@@ -53,28 +53,12 @@ export default {
         });
       });
     });
-    // Notebooks.getAll()
-    //   .then((res) => {
-    //     this.notebooks = res.data;
-    //     this.curBook =
-    //       this.notebooks.find(
-    //         (notebook) => notebook.id == this.$route.query.notebookId
-    //       ) ||
-    //       this.notebooks[0] ||
-    //       {};
-    //     return Notes.getAll({ notebookId: this.curBook.id });
-    //   })
-    //   .then((res) => {
-    //     this.notes = res.data;
-    //     this.$emit("update:notes", this.notes);
-    //     Bus.$emit("update:notes", this.notes);
-    //   });
   },
   computed: {
     ...mapGetters(["notebooks", "notes", "curBook"]),
   },
   methods: {
-    ...mapMutations(["setCurBook", "SetCurNote"]),
+    ...mapMutations(["setCurBook", "setCurNote"]),
     ...mapActions(["getNotebooks", "getNotes", "addNote"]),
 
     handleCommand(notebookId) {
@@ -85,16 +69,10 @@ export default {
         curBookId: notebookId,
       });
       this.getNotes({ notebookId });
-      //   Notes.getAll({ notebookId }).then((res) => {
-      //     this.notes = res.data;
-      //     this.$emit("update:notes", this.notes);
-      //   });
     },
 
     onAddNote() {
-      Notes.addNote({ notebookId: this.curBook.id }).then((res) => {
-        this.notes.unshift(res.data);
-      });
+      this.addNote({ notebookId: this.curBook.id });
     },
   },
 };

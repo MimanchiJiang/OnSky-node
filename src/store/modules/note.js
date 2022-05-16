@@ -22,6 +22,7 @@ const mutations = {
     },
 
     addNote(state, payload) {
+        console.log('hi')
         state.notes.unshift(payload.note)
     },
 
@@ -67,7 +68,7 @@ const actions = { //用来调用mutations
     deleteNote({ commit }, { noteId }) {
         return Note.deleteNote({ noteId })
             .then(res => {
-                commit('deleteNotebook', { noteId })
+                commit('deleteNote', { noteId })
                 Message.success(res.msg)
             })
     }

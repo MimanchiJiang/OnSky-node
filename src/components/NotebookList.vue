@@ -9,7 +9,7 @@
         <div class="book-list">
           <router-link
             v-for="notebook in notebooks"
-            v-bind:key="notebook"
+            v-bind:key="notebook.index"
             :to="`/note?notebookId=${notebook.id}`"
             class="notebook"
           >
