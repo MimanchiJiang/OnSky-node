@@ -1,7 +1,6 @@
 <template>
   <div id="notebook-list" class="detail">
     <a href="#" class="btn" @click.prevent="onCreate">新建笔记本 </a>
-
     <main>
       <div class="layout">
         <h3>笔记本列表{{ notebooks.length }}</h3>
@@ -34,10 +33,7 @@
 </template>
 
 <script>
-import Auth from "@/apis/auth";
-import Notebooks from "@/apis/notebooks";
-import { friendlyDate } from "@/helpers/util";
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   data() {

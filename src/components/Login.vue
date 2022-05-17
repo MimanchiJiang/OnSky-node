@@ -171,7 +171,7 @@ export default {
 
   .main {
     flex: 1;
-    background: rgb(206, 231, 249) url(../assets/login.jpg);
+    background: url(../assets/login.jpg);
     background-size: contain;
   }
   .form {
