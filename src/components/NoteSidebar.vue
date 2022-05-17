@@ -51,11 +51,18 @@ export default {
         this.setCurNote({
           curNoteId: this.$route.query.noteId,
         });
+        this.$router.replace({
+          path: "/note",
+          query: {
+            noteId: this.curNote.id,
+            notebookId: this.curBook.id,
+          },
+        });
       });
     });
   },
   computed: {
-    ...mapGetters(["notebooks", "notes", "curBook"]),
+    ...mapGetters(["notebooks", "notes", "curBook", "curNote", ""]),
   },
   methods: {
     ...mapMutations(["setCurBook", "setCurNote"]),
@@ -68,7 +75,16 @@ export default {
       this.$store.commit("setCurBook", {
         curBookId: notebookId,
       });
-      this.getNotes({ notebookId });
+      this.getNotes({ notebookId }).then(() => {
+        this.setCurNote();
+        this.$router.replace({
+          path: "/note",
+          query: {
+            noteId: this.curNote.id,
+            notebookId: this.curBook.id,
+          },
+        });
+      });
     },
 
     onAddNote() {

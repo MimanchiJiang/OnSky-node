@@ -14,7 +14,7 @@
       ></router-link>
     </div>
     <div class="logout">
-      <i class="iconfont icon-logout" @click="logout"></i>
+      <i class="iconfont icon-logout" @click="onLogout"></i>
     </div>
   </div>
 </template>
@@ -22,13 +22,14 @@
 <script>
 import Avatar from "./Avatar.vue";
 import Auth from "@/apis/auth";
+import { mapActions } from "vuex";
 export default {
   components: { Avatar },
   methods: {
-    logout() {
-      Auth.logout().then((data) => {
-        this.$router.push({ path: "login" });
-      });
+    ...mapActions(["logout"]),
+
+    onLogout() {
+      this.logout({ path: "/login" });
     },
   },
 };
