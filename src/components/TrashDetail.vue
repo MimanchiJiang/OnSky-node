@@ -22,9 +22,10 @@
         <span>更新日期：{{ curTrashNote.updatedAtFriendly }}</span>
         <span>|</span>
         <span>所属笔记本：{{ belongTo }}</span>
-        <a class="btn action" @click="onRevert">恢复</a>
         <a class="btn action" @click="onDelete">彻底删除</a>
+        <a class="btn action" @click="onRevert">恢复</a>
       </div>
+
       <div class="note-title">
         <span>{{ curTrashNote.title }}</span>
       </div>
@@ -115,6 +116,10 @@ export default {
 
   .note-bar {
     .action {
+      color: #fff;
+      border-radius: 4px;
+      padding: 3px 5px;
+      background-color: rgb(79, 115, 90);
       float: right;
       margin-left: 10px;
       padding: 2px 4px;

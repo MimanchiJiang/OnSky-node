@@ -1,8 +1,7 @@
 <template>
   <div id="notebook-list" class="detail">
-    <header>
-      <a href="#" class="btn" @click.prevent="onCreate">新建笔记本 </a>
-    </header>
+    <a href="#" class="btn" @click.prevent="onCreate">新建笔记本 </a>
+
     <main>
       <div class="layout">
         <h3>笔记本列表{{ notebooks.length }}</h3>
