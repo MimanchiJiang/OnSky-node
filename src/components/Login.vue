@@ -48,8 +48,6 @@
   </div>
 </template>
 <script>
-import Bus from "@/helpers/bus.js";
-import Auth from "@/apis/auth.js";
 import { mapGetters, mapActions } from "vuex";
 
 export default {

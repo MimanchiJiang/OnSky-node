@@ -28,14 +28,14 @@
             @input="OnUpdateNote"
             @keydown="statusText = '正在输入....'"
             v-model:value="curNote.content"
-            v-show="isShowPreview"
+            v-show="!isShowPreview"
             placeholder="输入内容,支持markdown 语法"
           ></textarea>
           <div
             @keydown="statusText = '正在输入....'"
             v-html="previewContent"
             class="preview markdown-body"
-            v-show="!isShowPreview"
+            v-show="isShowPreview"
           ></div>
         </div>
       </div>
